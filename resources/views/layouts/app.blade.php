@@ -24,14 +24,35 @@
                       {{ request()->routeIs('dashboard') ? 'bg-green-100 text-green-800' : 'text-gray-600 hover:bg-gray-100' }}">
                 Dashboard
             </a>
-            @foreach ($navHabits as $navHabit)
-                <a href="{{ route('habits.show', $navHabit) }}"
-                   class="flex items-center gap-2 px-3 py-2 rounded-lg text-sm transition-colors
-                          {{ request()->is('habits/' . $navHabit->id) ? 'bg-green-100 text-green-800 font-medium' : 'text-gray-600 hover:bg-gray-100' }}">
-                    <span>{{ $navHabit->emoji ?? '✦' }}</span>
-                    <span class="truncate">{{ $navHabit->name }}</span>
+            <div class="mt-2 mx-1 rounded-xl bg-green-50 p-1">
+                <div class="pb-0.5 px-2 pt-1.5">
+                    <span class="text-xs font-medium text-green-500 uppercase tracking-wide">Habits</span>
+                </div>
+                @foreach ($navHabits as $navHabit)
+                    <a href="{{ route('habits.show', $navHabit) }}"
+                       class="flex items-center gap-2 px-3 py-2 rounded-lg text-sm transition-colors
+                              {{ request()->is('habits/' . $navHabit->id) ? 'bg-green-100 text-green-800 font-medium' : 'text-green-900/60 hover:bg-green-100' }}">
+                        <span>{{ $navHabit->emoji ?? '✦' }}</span>
+                        <span class="truncate">{{ $navHabit->name }}</span>
+                    </a>
+                @endforeach
+            </div>
+
+            <div class="mt-2 mx-1 rounded-xl bg-indigo-50 p-1">
+                <div class="pb-0.5 px-2 pt-1.5">
+                    <span class="text-xs font-medium text-indigo-400 uppercase tracking-wide">Vocabulary</span>
+                </div>
+                <a href="{{ route('collections.index') }}"
+                   class="flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-colors
+                          {{ request()->routeIs('collections.*') ? 'bg-indigo-100 text-indigo-800' : 'text-indigo-900/60 hover:bg-indigo-100' }}">
+                    Collections
                 </a>
-            @endforeach
+                <a href="{{ route('cards.index') }}"
+                   class="flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-colors
+                          {{ request()->routeIs('cards.*') ? 'bg-indigo-100 text-indigo-800' : 'text-indigo-900/60 hover:bg-indigo-100' }}">
+                    Cards
+                </a>
+            </div>
         </nav>
     </aside>
 
@@ -44,6 +65,14 @@
                      x-init="setTimeout(() => show = false, 3000)"
                      class="mb-6 text-sm text-green-700 bg-green-50 border border-green-200 rounded-lg px-4 py-3">
                     {{ session('success') }}
+                </div>
+            @endif
+
+            @if (session('info'))
+                <div x-data="{ show: true }" x-show="show" x-cloak
+                     x-init="setTimeout(() => show = false, 4000)"
+                     class="mb-6 text-sm text-blue-700 bg-blue-50 border border-blue-200 rounded-lg px-4 py-3">
+                    {{ session('info') }}
                 </div>
             @endif
 

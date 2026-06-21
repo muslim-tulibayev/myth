@@ -74,3 +74,52 @@ Logs can be individually deleted. Viewing and deleting today's Logs is done per-
 ## Schedule
 
 All Habits recur **daily** — every habit is expected once per day, every day. No per-day-of-week configuration.
+
+---
+
+## Card
+
+A vocabulary learning unit. A Card pairs a term with its translation. Language is not tracked — a term is just a term. Fields:
+
+| Field | Type | Required | Notes |
+|---|---|---|---|
+| `word` | string | yes | The term to learn |
+| `translation` | string | yes | Translation or meaning of the word |
+| `example` | string | no | Example sentence using the word |
+| `notes` | string | no | Free-form personal notes |
+
+A Card belongs to exactly one Collection. Cards are not deletable — only editable. Learning history is always preserved.
+
+## Repetition Schedule
+
+Cards follow a fixed four-level interval schedule: **1 → 3 → 7 → 30 days**. Each correct answer advances the Card to the next level; an incorrect answer resets it back to level 0 (due again in 1 day). The interval is measured from the date the Card was last reviewed. A newly added Card is due immediately on the day it is added.
+
+| Level | Next review after |
+|---|---|
+| 0 (new) | 1 day |
+| 1 | 3 days |
+| 2 | 7 days |
+| 3 | 30 days |
+| 4 | Mastered — retired from the review queue |
+
+## Review Session
+
+A single sitting in which the user reviews due Cards. Before starting, the user picks a **Review Mode**:
+
+- **Passive** — the word is shown, user recalls the answer mentally, then reveals the translation and self-reports correct/incorrect.
+- **Variants** — the word is shown alongside 4 multiple-choice options; user picks the correct translation. Distractors are drawn from other Cards in the same Collection. If the Collection has fewer than 4 Cards, options are reduced to the available count.
+
+The mode applies to all Cards in that session. A session is scoped to a single Collection — the user picks which Collection to review before starting. Cards within a session are presented in random order. Each Card's result is recorded immediately as it is answered — exiting mid-session preserves progress already made.
+
+The "Start Review" button is disabled when no Cards are due in a Collection. Out-of-schedule practice is not supported.
+
+## Collection
+
+A named group of Cards. Collections are not deletable — only editable (MVP). The Collections list shows a "N due" badge per Collection. The Collection detail page shows all its Cards as a list with a level badge per Card, plus a "Start Review" button. Fields:
+
+| Field | Type | Required | Notes |
+|---|---|---|---|
+| `name` | string | yes | Label for the group |
+| `description` | string | no | Free-form description |
+| `color` | string | no | Hex color; randomly assigned at creation if absent |
+| `emoji` | string | no | Single emoji for visual identity |
